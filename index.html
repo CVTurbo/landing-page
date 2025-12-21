@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVTurbo - Currículos Otimizados por IA em 1 Minuto</title>
+    <!-- Carrega Tailwind CSS para estilização rápida e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carrega Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Configuração da Fonte Inter e cores customizadas -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-dark': '#0a0a0a',
+                        'electric-blue': '#00FFFF', // Ciano/Azul Elétrico para destaque
+                        'dark-bg': '#0D0E11', // Fundo Principal
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'neon': '0 0 10px #00FFFF, 0 0 20px #00FFFF80', // Sombra neon para o destaque
+                        'glass': '0 4px 30px rgba(0, 255, 255, 0.1)', // Efeito vidraçado leve
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Estilos globais e de corpo */
+        body {
+            background-color: #0D0E11; /* Cor de fundo principal */
+            color: #E0E7FF;
+            font-family: 'Inter', sans-serif;
+            /* Scroll Suave nativo para desktops */
+            scroll-behavior: smooth; 
+        }
+
+        /* Efeito de destaque para texto */
+        .neon-text {
+            color: #00FFFF;
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.8);
+        }
+
+        /* Estilo do botão CTA principal - Efeito Hover/Neon */
+        .cta-button {
+            background: linear-gradient(90deg, #00FFFF, #00BFFF);
+            color: #0D0E11;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            box-shadow: 0 0 15px #00FFFF;
+            transform: translateY(-2px);
+            background: linear-gradient(90deg, #00BFFF, #00FFFF);
+        }
+
+        /* Estilo para simular o efeito "vidraçado" (Glassmorphism) */
+        .glass-card {
+            background: rgba(14, 18, 26, 0.6);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 255, 255, 0.05);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .glass-card:hover {
+             border-color: rgba(0, 255, 255, 0.5);
+             transform: translateY(-4px);
+        }
+
+        /* Estilo da navbar flutuante */
+        #floating-cta {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        #floating-cta.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Estilos para o Menu Lateral (Mobile) */
+        #mobile-menu {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 70%; /* Largura do menu lateral */
+            max-width: 300px;
+            height: 100%;
+            background-color: #0D0E11;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 501; /* Acima da navbar */
+            padding: 2rem;
+            border-left: 1px solid rgba(0, 255, 255, 0.2);
+            box-shadow: -10px 0 20px rgba(0, 255, 255, 0.1);
+        }
+
+        #mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        /* Overlay para o menu lateral */
+        #menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 500;
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-dark-bg">
+
+    <!-- Navbar Fixa -->
+    <nav id="navbar" class="fixed top-0 left-0 w-full bg-dark-bg/90 backdrop-blur-sm z-50 shadow-lg border-b border-electric-blue/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo Conceito: CV Turbo -->
+                <a href="#hero" class="flex-shrink-0 flex items-center scroll-link">
+                    <i class="fas fa-microchip text-electric-blue text-2xl neon-text mr-2"></i>
+                    <span class="text-white text-2xl font-bold tracking-widest">CV<span class="neon-text">Turbo</span></span>
+                </a>
+                
+                <!-- Links de Navegação (Escondidos em Mobile, visíveis em Desktop) -->
+                <div class="hidden md:flex space-x-8 text-sm font-medium">
+                    <a href="#dor" class="text-gray-300 hover:text-electric-blue transition duration-200 scroll-link">A Dor</a>
+                    <a href="#solucao" class="text-gray-300 hover:text-electric-blue transition duration-200 scroll-link">A Solução</a>
+                    <a href="#resultados" class="text-gray-300 hover:text-electric-blue transition duration-200 scroll-link">Resultados</a>
+                    <a href="#faq" class="text-gray-300 hover:text-electric-blue transition duration-200 scroll-link">FAQ</a>
+                </div>
+
+                <!-- CTA Principal no Desktop -->
+                <a href="mailto:alineabreuespindola@gmail.com?subject=Eu tenho interesse no CV Turbo" 
+                   class="hidden md:inline-flex items-center px-4 py-2 rounded-full cta-button text-sm">
+                    QUERO MEU ACESSO TESTER <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+
+                <!-- Botão Hambúrguer (Mobile) -->
+                <button id="menu-button" class="md:hidden text-electric-blue text-2xl p-2 rounded hover:bg-electric-blue/10 transition duration-200">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Menu Lateral Mobile -->
+    <div id="menu-overlay" class="md:hidden"></div>
+    <div id="mobile-menu" class="md:hidden">
+        <div class="flex justify-between items-center mb-8">
+            <span class="text-white text-xl font-bold">Menu CV<span class="neon-text">Turbo</span></span>
+            <button id="close-menu" class="text-electric-blue text-2xl hover:bg-electric-blue/10 p-2 rounded transition duration-200">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <nav class="flex flex-col space-y-4 text-lg">
+            <a href="#dor" class="text-gray-300 hover:text-electric-blue transition duration-200 border-b border-electric-blue/10 pb-2 scroll-link-mobile">A Dor</a>
+            <a href="#solucao" class="text-gray-300 hover:text-electric-blue transition duration-200 border-b border-electric-blue/10 pb-2 scroll-link-mobile">A Solução</a>
+            <a href="#resultados" class="text-gray-300 hover:text-electric-blue transition duration-200 border-b border-electric-blue/10 pb-2 scroll-link-mobile">Resultados</a>
+            <a href="#faq" class="text-gray-300 hover:text-electric-blue transition duration-200 border-b border-electric-blue/10 pb-2 scroll-link-mobile">FAQ</a>
+        </nav>
+
+        <div class="mt-10">
+            <a href="mailto:alineabreuespindola@gmail.com?subject=Eu tenho interesse no CV Turbo" 
+               class="w-full inline-flex items-center justify-center px-4 py-3 rounded-full cta-button text-sm">
+                QUERO MEU ACESSO TESTER <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <main class="pt-16">
+
+        <!-- 1. Seção Hero (Atenção e Promessa) -->
+        <section id="hero" class="relative overflow-hidden pt-16 md:pt-24 pb-20 md:pb-32 text-center">
+            <!-- Efeito de fundo tecnológico (gradiente radial) -->
+            <div class="absolute inset-0 bg-dark-bg" style="clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);">
+                <div class="absolute inset-0 opacity-10" style="background: radial-gradient(circle at center top, #00FFFF40 0%, #0D0E11 50%);"></div>
+            </div>
+            
+            <div class="relative max-w-4xl mx-auto px-6 z-10">
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold leading-tight mb-4 tracking-tighter text-white">
+                    Pare de perder <span class="neon-text">horas.</span> Currículo por IA em <span class="neon-text">1 minuto.</span>
+                </h1>
+                <p class="text-xl sm:text-2xl text-gray-400 mb-8 font-light max-w-2xl mx-auto">
+                    A IA que simplifica radicalmente a personalização de currículos para CADA vaga.
+                    Foco no que importa: <span class="text-white font-semibold">Entrevistas e Habilidades.</span>
+                </p>
+                <a href="mailto:alineabreuespindola@gmail.com?subject=Eu tenho interesse no CV Turbo" 
+                   class="inline-flex items-center justify-center px-10 py-4 text-lg rounded-full cta-button shadow-neon hover:shadow-2xl transition duration-300">
+                    LIBERE SEU TEMPO AGORA <i class="fas fa-rocket ml-3"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- 2. Seção da Dor/Problema (Interesse) -->
+        <section id="dor" class="py-20 md:py-28 bg-dark-bg/80 border-t border-b border-electric-blue/10">
+            <div class="max-w-6xl mx-auto px-6">
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-16 text-white">
+                    A Candidatura Manual <span class="neon-text">Está Sugando Sua Energia.</span>
+                </h2>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Dor 1: Tempo Perdido -->
+                    <div class="glass-card p-6 rounded-xl text-center">
+                        <i class="far fa-clock text-4xl neon-text mb-4"></i>
+                        <h3 class="text-xl font-semibold text-white mb-3">Fadiga da Personalização</h3>
+                        <p class="text-gray-400">Você gasta horas editando o mesmo currículo para cada vaga, mudando palavras-chave e reescrevendo descrições. É exaustivo e repete o mesmo erro.</p>
+                    </div>
+                    
+                    <!-- Dor 2: Barreira ATS -->
+                    <div class="glass-card p-6 rounded-xl text-center">
+                        <i class="fas fa-robot text-4xl neon-text mb-4"></i>
+                        <h3 class="text-xl font-semibold text-white mb-3">O Muro do ATS (AI Tracking System)</h3>
+                        <p class="text-gray-400">Seu currículo é perfeito, mas o robô do ATS o descarta porque faltou uma palavra-chave específica. Você nunca chega ao recrutador humano.</p>
+                    </div>
+                    
+                    <!-- Dor 3: Foco Desviado -->
+                    <div class="glass-card p-6 rounded-xl text-center">
+                        <i class="fas fa-brain text-4xl neon-text mb-4"></i>
+                        <h3 class="text-xl font-semibold text-white mb-3">Estresse e Foco Desviado</h3>
+                        <p class="text-gray-400">Toda sua energia está na burocracia do currículo, e não em aprimorar suas habilidades ou fazer networking, que são os verdadeiros catalisadores de carreira.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Seção de Funcionamento (A Solução - Desejo) -->
+        <section id="solucao" class="py-20 md:py-28">
+            <div class="max-w-6xl mx-auto px-6">
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-6 text-white">
+                    CVTurbo: A Simplicidade <span class="neon-text">em 3 Passos.</span>
+                </h2>
+                <p class="text-xl text-gray-400 text-center mb-16 max-w-3xl mx-auto">
+                    O currículo deve ser rápido. A tecnologia deve trabalhar para você.
+                </p>
+
+                <div class="relative">
+                    <!-- Linha de Conexão Central (Apenas em Desktop) -->
+                    <div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-0.5 bg-electric-blue/20"></div>
+
+                    <!-- Estrutura em 3 Passos - CORRIGIDO para alinhamento absoluto -->
+                    
+                    <!-- Passo 1 -->
+                    <div class="flex flex-col md:flex-row items-center mb-16 md:relative">
+                        <!-- Conteúdo do Passo 1 (md:w-1/2 - Direita em Desktop) -->
+                        <div class="md:w-1/2 text-left md:text-right p-4 md:pr-10 md:order-1 order-2">
+                            <h3 class="text-2xl font-bold text-white mb-2">1. Crie seu Banco de Dados Único</h3>
+                            <p class="text-gray-400">Cadastre suas experiências, habilidades e projetos uma única vez. Esqueça as múltiplas versões de documentos.</p>
+                        </div>
+                        
+                        <!-- Ponto Central Absoluto 1 (Snaps to the line on Desktop) -->
+                        <div class="
+                            flex justify-center w-full order-1 py-4                  /* Mobile: full width, centered */
+                            md:w-auto md:p-0 md:order-2 md:absolute                  /* Desktop: absolute positioning */
+                            md:left-1/2 md:top-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2
+                        ">
+                            <div class="w-16 h-16 rounded-full bg-dark-bg border-4 border-electric-blue/50 flex items-center justify-center shadow-neon">
+                                <span class="text-2xl font-extrabold neon-text">1</span>
+                            </div>
+                        </div>
+
+                        <!-- Spacer 1 (md:w-1/2 - Esquerda em Desktop) -->
+                        <div class="md:w-1/2 p-4 hidden md:block md:order-3"></div>
+                    </div>
+
+                    <!-- Passo 2 -->
+                    <div class="flex flex-col md:flex-row items-center mb-16 md:relative">
+                        <!-- Spacer 2 (md:w-1/2 - Direita em Desktop) -->
+                        <div class="md:w-1/2 p-4 hidden md:block md:order-1"></div>
+                        
+                        <!-- Ponto Central Absoluto 2 (Snaps to the line on Desktop) -->
+                        <div class="
+                            flex justify-center w-full order-1 py-4                  /* Mobile: full width, centered */
+                            md:w-auto md:p-0 md:order-2 md:absolute                  /* Desktop: absolute positioning */
+                            md:left-1/2 md:top-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2
+                        ">
+                            <div class="w-16 h-16 rounded-full bg-dark-bg border-4 border-electric-blue/50 flex items-center justify-center shadow-neon">
+                                <span class="text-2xl font-extrabold neon-text">2</span>
+                            </div>
+                        </div>
+
+                        <!-- Conteúdo do Passo 2 (md:w-1/2 - Esquerda em Desktop) -->
+                        <div class="md:w-1/2 text-left p-4 md:pl-10 md:order-3 order-2">
+                            <h3 class="text-2xl font-bold text-white mb-2">2. Cole a Descrição da Vaga</h3>
+                            <p class="text-gray-400">Simples assim. Cole o texto da vaga. O CVTurbo faz a leitura e a engenharia reversa das palavras-chave e requisitos.</p>
+                        </div>
+                    </div>
+
+                    <!-- Passo 3 -->
+                    <div class="flex flex-col md:flex-row items-center md:relative">
+                        <!-- Conteúdo do Passo 3 (md:w-1/2 - Direita em Desktop) -->
+                        <div class="md:w-1/2 text-left md:text-right p-4 md:pr-10 md:order-1 order-2">
+                            <h3 class="text-2xl font-bold text-white mb-2">3. Receba o Currículo Otimizado</h3>
+                            <p class="text-gray-400">Em *menos de 60 segundos*, a IA cruza seu banco de dados com a vaga e gera um PDF formatado, 100% otimizado para passar pelo ATS.</p>
+                        </div>
+                        
+                        <!-- Ponto Central Absoluto 3 (Snaps to the line on Desktop) -->
+                         <div class="
+                            flex justify-center w-full order-1 py-4                  /* Mobile: full width, centered */
+                            md:w-auto md:p-0 md:order-2 md:absolute                  /* Desktop: absolute positioning */
+                            md:left-1/2 md:top-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2
+                        ">
+                            <div class="w-16 h-16 rounded-full bg-dark-bg border-4 border-electric-blue/50 flex items-center justify-center shadow-neon">
+                                <span class="text-2xl font-extrabold neon-text">3</span>
+                            </div>
+                        </div>
+
+                        <!-- Spacer 3 (md:w-1/2 - Esquerda em Desktop) -->
+                        <div class="md:w-1/2 p-4 hidden md:block md:order-3"></div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        
+        <!-- 4. Seção Prova Social (Credibilidade) -->
+        <section class="py-20 md:py-28 bg-dark-bg/80 border-t border-b border-electric-blue/10">
+            <div class="max-w-6xl mx-auto px-6">
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-16 text-white">
+                    O Fim da Burocracia de Currículos. <span class="neon-text">Quem Já Testou Diz:</span>
+                </h2>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    
+                    <!-- Depoimento 1: Júnior - Foco no ATS -->
+                    <div class="glass-card p-6 rounded-xl transform hover:scale-[1.01] transition duration-300">
+                        <i class="fas fa-quote-left text-electric-blue/70 mb-4"></i>
+                        <p class="italic text-lg text-gray-300 mb-4">"Eu estava sendo barrado pelo ATS em toda vaga júnior. Usei o CVTurbo e, pela primeira vez, recebi dois contatos na mesma semana. A otimização de palavras-chave é mágica!"</p>
+                        <div class="text-right border-t border-electric-blue/10 pt-3">
+                            <p class="font-semibold text-white">Lucas B.</p>
+                            <p class="text-sm text-gray-500">Analista Júnior, SP</p>
+                        </div>
+                    </div>
+
+                    <!-- Depoimento 2: Sênior - Foco no Tempo -->
+                    <div class="glass-card p-6 rounded-xl transform hover:scale-[1.01] transition duration-300">
+                        <i class="fas fa-quote-left text-electric-blue/70 mb-4"></i>
+                        <p class="italic text-lg text-gray-300 mb-4">"Como profissional sênior, meu tempo é caro. Eu me recusava a gastar 3 horas personalizando um CV. Agora, com o CVTurbo, levo 45 segundos. Posso focar em preparar a entrevista. Simplesmente mudou o jogo."</p>
+                        <div class="text-right border-t border-electric-blue/10 pt-3">
+                            <p class="font-semibold text-white">Mariana C.</p>
+                            <p class="text-sm text-gray-500">Líder de Produto, RJ</p>
+                        </div>
+                    </div>
+
+                    <!-- Depoimento 3: Geral - Foco no Estresse -->
+                    <div class="glass-card p-6 rounded-xl transform hover:scale-[1.01] transition duration-300">
+                        <i class="fas fa-quote-left text-electric-blue/70 mb-4"></i>
+                        <p class="italic text-lg text-gray-300 mb-4">"A busca por emprego é estressante. O CVTurbo tirou uma das maiores dores de cabeça do processo: a burocracia do currículo. É intuitivo, rápido e o resultado é impecável. Zero erros."</p>
+                        <div class="text-right border-t border-electric-blue/10 pt-3">
+                            <p class="font-semibold text-white">João V.</p>
+                            <p class="text-sm text-gray-500">Desenvolvedor Full Stack, MG</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Seção de Resultados (Ganhos Tangíveis - Desejo Reforçado) -->
+        <section id="resultados" class="py-20 md:py-28">
+            <div class="max-w-6xl mx-auto px-6">
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-16 text-white">
+                    <span class="neon-text">Métricas Reais:</span> O que você ganha com o CVTurbo
+                </h2>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    
+                    <!-- Métrica 1: Tempo -->
+                    <div class="glass-card p-8 rounded-xl text-center">
+                        <p class="text-6xl font-extrabold neon-text mb-2">95%</p>
+                        <h3 class="text-xl font-semibold text-white mb-2">Menos Tempo Gasto</h3>
+                        <p class="text-gray-400">Reduza o tempo de personalização de horas para segundos. Libere seu calendário para networking e aprendizado.</p>
+                    </div>
+
+                    <!-- Métrica 2: ATS -->
+                    <div class="glass-card p-8 rounded-xl text-center">
+                        <p class="text-6xl font-extrabold neon-text mb-2">80%</p>
+                        <h3 class="text-xl font-semibold text-white mb-2">Maior Chance com ATS</h3>
+                        <p class="text-gray-400">A IA otimiza o conteúdo para as palavras-chave do ATS, garantindo que seu currículo chegue à mesa do recrutador.</p>
+                    </div>
+
+                    <!-- Métrica 3: Foco -->
+                    <div class="glass-card p-8 rounded-xl text-center">
+                        <p class="text-6xl font-extrabold neon-text mb-2">100%</p>
+                        <h3 class="text-xl font-semibold text-white mb-2">Foco no Seu Crescimento</h3>
+                        <p class="text-gray-400">Pare de se preocupar com formatos e burocracia. Concentre sua energia em entrevistas e desenvolvimento de carreira.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Seção CTA Final (Ação) -->
+        <section id="cta" class="py-20 md:py-32 bg-electric-blue/5 mt-16 text-center border-t border-b border-electric-blue/20">
+            <div class="max-w-4xl mx-auto px-6">
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-white mb-6">
+                    Sua Carreira Não Pode Esperar.
+                </h2>
+                <p class="text-xl text-gray-300 mb-10">
+                    Diga adeus à frustração do currículo. Seja um dos primeiros a usar o poder da IA.
+                </p>
+                <a href="mailto:alineabreuespindola@gmail.com?subject=Eu tenho interesse no CV Turbo" 
+                   class="inline-flex items-center justify-center px-12 py-5 text-xl rounded-full cta-button shadow-neon hover:shadow-2xl transition duration-300 animate-pulse">
+                    QUERO TESTAR O CVTURBO AGORA <i class="fas fa-bolt ml-4"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- 7. Seção FAQ (Quebra de Objeções) -->
+        <section id="faq" class="py-20 md:py-28">
+            <div class="max-w-4xl mx-auto px-6">
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 text-white">
+                    Perguntas Frequentes <span class="neon-text">(FAQ)</span>
+                </h2>
+
+                <div id="accordion" class="space-y-4">
+                    
+                    <!-- FAQ Item 1 -->
+                    <div class="glass-card rounded-lg overflow-hidden">
+                        <button class="accordion-header w-full flex justify-between items-center p-5 text-left font-semibold text-white hover:bg-electric-blue/10 transition duration-300">
+                            <span>1. Quando poderei ter acesso ao CVTurbo?</span>
+                            <i class="fas fa-chevron-down text-electric-blue transition-transform duration-300"></i>
+                        </button>
+                        <div class="accordion-content p-5 pt-0 text-gray-400" style="display: none;">
+                            <p>O CVTurbo está em **desenvolvimento ativo** para garantir a melhor experiência e performance ATS do mercado! O lançamento oficial será em breve. Para acompanhar os detalhes da produção e garantir seu lugar como um dos primeiros *testers* com acesso gratuito, entre em contato pelo botão CTA acima!</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 2 -->
+                    <div class="glass-card rounded-lg overflow-hidden">
+                        <button class="accordion-header w-full flex justify-between items-center p-5 text-left font-semibold text-white hover:bg-electric-blue/10 transition duration-300">
+                            <span>2. O CVTurbo será pago? Qual será o modelo de monetização?</span>
+                            <i class="fas fa-chevron-down text-electric-blue transition-transform duration-300"></i>
+                        </button>
+                        <div class="accordion-content p-5 pt-0 text-gray-400" style="display: none;">
+                            <p>No momento, o modo de monetização ainda está em fase de análise. A ideia é oferecer uma versão gratuita, mesmo que limitada, para que todos possam se beneficiar da IA. Estamos considerando versões *premium* com funcionalidades avançadas e ilimitadas. **Mas, atenção:** os primeiros *testers* terão acesso gratuito total ao CVTurbo!</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 3 -->
+                    <div class="glass-card rounded-lg overflow-hidden">
+                        <button class="accordion-header w-full flex justify-between items-center p-5 text-left font-semibold text-white hover:bg-electric-blue/10 transition duration-300">
+                            <span>3. Quem está desenvolvendo o CVTurbo? Gostaria de contribuir.</span>
+                            <i class="fas fa-chevron-down text-electric-blue transition-transform duration-300"></i>
+                        </button>
+                        <div class="accordion-content p-5 pt-0 text-gray-400" style="display: none;">
+                            <p>O desenvolvimento está a cargo da **Aline Espíndola**, uma desenvolvedora Full Stack apaixonada por soluções de alto impacto. Adoramos colaboração! Se você tem interesse em contribuir com código, design ou ideias, entre em contato. O futuro do recrutamento é construído em conjunto.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 4 -->
+                    <div class="glass-card rounded-lg overflow-hidden">
+                        <button class="accordion-header w-full flex justify-between items-center p-5 text-left font-semibold text-white hover:bg-electric-blue/10 transition duration-300">
+                            <span>4. O CVTurbo garante que eu consiga uma entrevista?</span>
+                            <i class="fas fa-chevron-down text-electric-blue transition-transform duration-300"></i>
+                        </button>
+                        <div class="accordion-content p-5 pt-0 text-gray-400" style="display: none;">
+                            <p>O CVTurbo garante que seu currículo **pare de ser descartado** pelos sistemas ATS. Ele aumenta dramaticamente a sua taxa de aprovação no primeiro filtro, colocando você na frente do recrutador humano. O sucesso final, claro, depende das suas habilidades, experiência e performance na entrevista. O CVTurbo te dá a chance que você merece!</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 5 -->
+                    <div class="glass-card rounded-lg overflow-hidden">
+                        <button class="accordion-header w-full flex justify-between items-center p-5 text-left font-semibold text-white hover:bg-electric-blue/10 transition duration-300">
+                            <span>5. Posso exportar o currículo em PDF e o formato é profissional?</span>
+                            <i class="fas fa-chevron-down text-electric-blue transition-transform duration-300"></i>
+                        </button>
+                        <div class="accordion-content p-5 pt-0 text-gray-400" style="display: none;">
+                            <p>Com certeza. A IA não apenas otimiza o conteúdo, mas o exporta em um arquivo **PDF de alta qualidade** com um design moderno, limpo e profissional, totalmente compatível com todos os sistemas ATS e a leitura humana. Pronto para enviar, sem ajustes.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-primary-dark pt-16 pb-8 mt-20 border-t border-electric-blue/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                
+                <!-- Coluna 1: Logo e Contato -->
+                <div class="col-span-2 md:col-span-1">
+                    <a href="#hero" class="flex-shrink-0 flex items-center mb-4 scroll-link">
+                        <i class="fas fa-microchip text-electric-blue text-2xl neon-text mr-2"></i>
+                        <span class="text-white text-xl font-bold tracking-widest">CV<span class="neon-text">Turbo</span></span>
+                    </a>
+                    <p class="text-gray-400 text-sm mb-4">A ferramenta de IA para quem valoriza o tempo e a carreira.</p>
+                    <ul class="space-y-2 text-sm">
+                        <li>
+                            <i class="fas fa-envelope text-electric-blue mr-2"></i>
+                            <a href="mailto:alineabreuespindola@gmail.com" class="text-gray-400 hover:text-electric-blue">alineabreuespindola@gmail.com</a>
+                        </li>
+                        <li>
+                            <i class="fab fa-linkedin text-electric-blue mr-2"></i>
+                            <a href="https://www.linkedin.com/in/aline-aespindola?" target="_blank" class="text-gray-400 hover:text-electric-blue">LinkedIn (Aline)</a>
+                        </li>
+                        <li>
+                            <i class="fab fa-github text-electric-blue mr-2"></i>
+                            <a href="https://github.com/AlineEspindola" target="_blank" class="text-gray-400 hover:text-electric-blue">GitHub (Aline)</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Coluna 2: Desenvolvedores -->
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4 border-b border-electric-blue/5 pb-1">Desenvolvimento</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li class="text-gray-400">Aline de Abreu Espíndola</li>
+                    </ul>
+                </div>
+
+                <!-- Coluna 3: Outros Projetos -->
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4 border-b border-electric-blue/5 pb-1">Outros Projetos</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li>
+                            <a href="https://faculmatch.com" target="_blank" class="text-gray-400 hover:text-electric-blue transition duration-200">FaculMatch (Ver Projeto)</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-electric-blue/10 text-center">
+                <p class="text-xs text-gray-500">&copy; 2025 CVTurbo. Todos os direitos reservados. Design e Copy por Engenharia de Prompt.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botão CTA Flutuante (Visível em Mobile e quando o usuário desce a página) -->
+    <a id="floating-cta" href="mailto:alineabreuespindola@gmail.com?subject=Eu tenho interesse no CV Turbo" 
+       class="inline-flex items-center px-4 py-3 text-sm rounded-full cta-button shadow-xl shadow-electric-blue/50">
+        QUERO ACESSO TESTER <i class="fas fa-arrow-up ml-2"></i>
+    </a>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // ===================================
+            // Lógica do Acordeão (FAQ)
+            // ===================================
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const content = header.nextElementSibling;
+                    const icon = header.querySelector('i');
+                    
+                    // Fecha todos os outros
+                    accordionHeaders.forEach(otherHeader => {
+                        if (otherHeader !== header) {
+                            const otherContent = otherHeader.nextElementSibling;
+                            const otherIcon = otherHeader.querySelector('i');
+                            otherContent.style.display = 'none';
+                            otherIcon.classList.remove('rotate-180');
+                        }
+                    });
+
+                    // Abre ou fecha o item clicado
+                    if (content.style.display === 'none' || content.style.display === '') {
+                        content.style.display = 'block';
+                        icon.classList.toggle('rotate-180');
+                    } else {
+                        content.style.display = 'none';
+                        icon.classList.remove('rotate-180');
+                    }
+                });
+            });
+
+            // ===================================
+            // Lógica do CTA Flutuante
+            // ===================================
+            const floatingCta = document.getElementById('floating-cta');
+            const ctaSection = document.getElementById('cta');
+
+            // Exibe o CTA flutuante após rolar uma certa distância
+            window.addEventListener('scroll', () => {
+                const scrollPosition = window.scrollY;
+                const heroHeight = document.getElementById('hero').offsetHeight;
+                
+                // Exibe o botão flutuante após sair da seção Hero
+                if (scrollPosition > heroHeight / 2) {
+                    floatingCta.classList.add('show');
+                } else {
+                    floatingCta.classList.remove('show');
+                }
+
+                // Esconde o botão flutuante quando chega perto da seção CTA final ou Footer
+                if (ctaSection) {
+                    const rect = ctaSection.getBoundingClientRect();
+                    const isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
+
+                    // Se a seção CTA final estiver visível, esconda o flutuante
+                    if (isVisible) {
+                        floatingCta.classList.remove('show');
+                    }
+                }
+            });
+
+            // ===================================
+            // Lógica do Menu Hambúrguer (Mobile)
+            // ===================================
+            const menuButton = document.getElementById('menu-button');
+            const closeMenuButton = document.getElementById('close-menu');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuOverlay = document.getElementById('menu-overlay');
+
+            const toggleMenu = () => {
+                mobileMenu.classList.toggle('open');
+                menuOverlay.style.display = mobileMenu.classList.contains('open') ? 'block' : 'none';
+            };
+
+            menuButton.addEventListener('click', toggleMenu);
+            closeMenuButton.addEventListener('click', toggleMenu);
+            menuOverlay.addEventListener('click', toggleMenu);
+            
+            // Fecha o menu ao clicar em um link
+            document.querySelectorAll('.scroll-link-mobile').forEach(link => {
+                link.addEventListener('click', () => {
+                    // Adiciona um pequeno delay para o scroll suave ocorrer antes de fechar o menu
+                    setTimeout(toggleMenu, 300); 
+                });
+            });
+            
+            // ===================================
+            // Lógica do Scroll Suave (Substituindo scroll-behavior: smooth para maior compatibilidade)
+            // ===================================
+            document.querySelectorAll('.scroll-link, .scroll-link-mobile').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        // Faz o scroll suave usando a API nativa
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 64, // 64px é a altura da navbar fixa
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>
