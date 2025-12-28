@@ -1,4 +1,5 @@
 # CVTurbo — Landing Page de Alta Conversão
+<img width="1335" height="643" alt="image" src="https://github.com/user-attachments/assets/0d0afea3-99d3-47f3-a3e2-0a450260c4d0" />
 
 O CVTurbo é uma plataforma focada em resolver um dos maiores gargalos de quem está à procura de emprego: o tempo gasto na personalização de currículos para cada vaga. Esta landing page foi desenhada com foco em Copywriting Persuasivo, Design Futurista e Conversão.
 
